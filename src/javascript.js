@@ -1,6 +1,7 @@
 "use strict";
 const startUp = () => {
     setChordalIntervals(IONIAN, 'C');
+    addScales();
 };
 let notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 onload = startUp;
@@ -10,7 +11,7 @@ const PHRYGIAN = 'Phrygian';
 const LYDIAN = 'Lydian';
 const MIXOLYDIAN = 'Mixolydian';
 const AEOLIAN = 'Aeolian';
-const LOCRIAN = 'locrian';
+const LOCRIAN = 'Locrian';
 const scales = {
     [IONIAN]: [1, 3, 5, 6, 8, 10, 12],
     [DORIAN]: [1, 3, 4, 6, 8, 10, 11],
@@ -19,6 +20,17 @@ const scales = {
     [MIXOLYDIAN]: [1, 3, 5, 6, 8, 10, 11],
     [AEOLIAN]: [1, 3, 4, 6, 8, 9, 11],
     [LOCRIAN]: [1, 2, 4, 6, 7, 9, 11],
+};
+const addScales = () => {
+    const scalesEl = document.getElementById('scale');
+    const scaleList = Object.keys(scales);
+    scaleList.forEach(scale => {
+        const optionToInsert = document.createElement('option');
+        optionToInsert.innerHTML = scale;
+        if (scalesEl) {
+            scalesEl.appendChild(optionToInsert);
+        }
+    });
 };
 const setNewScale = (tonic, scale) => {
     console.log(scale);

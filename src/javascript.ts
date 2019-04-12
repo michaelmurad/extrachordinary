@@ -1,5 +1,6 @@
 const startUp = () => {
-  setChordalIntervals(IONIAN, 'C')
+  setChordalIntervals(IONIAN, 'C');
+  addScales();
 }
 
 let notes = ['C', 'C#', 'D', 'D#', 'E','F','F#','G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E','F','F#','G', 'G#', 'A', 'A#', 'B'];
@@ -12,7 +13,7 @@ const PHRYGIAN = 'Phrygian'
 const LYDIAN = 'Lydian'
 const MIXOLYDIAN = 'Mixolydian'
 const AEOLIAN = 'Aeolian'
-const LOCRIAN = 'locrian'
+const LOCRIAN = 'Locrian'
 
 const scales = {
   [IONIAN]: [1,3,5,6,8,10,12],
@@ -25,6 +26,18 @@ const scales = {
 
 }
 
+const addScales = () => {
+  const scalesEl = document.getElementById('scale')
+  const scaleList = Object.keys(scales)
+  scaleList.forEach(scale => {
+    const optionToInsert = document.createElement('option')
+    optionToInsert.innerHTML = scale
+    if (scalesEl) {
+      scalesEl.appendChild(optionToInsert)
+    }
+  })
+
+}
 const setNewScale = (tonic: string, scale: string): string[] => {
   console.log(scale)
   let newScale: string[] = scales[scale].map((note: number) => notes.slice(notes.findIndex(root => root === tonic))[note - 1]);
