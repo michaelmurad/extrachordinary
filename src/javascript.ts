@@ -1,6 +1,6 @@
 const chordinary = () => {
-  const reverb = new Tone.JCReverb(.1).connect(Tone.Master);
-  const synth = new Tone.PolySynth(4, Tone.Synth).chain(reverb);
+  const reverb = new window.Tone.JCReverb(.1).connect(window.Tone.Master);
+  const synth = new window.Tone.PolySynth(4, window.Tone.Synth).chain(reverb);
 
   const notes = ['C', 'C#', 'D', 'D#', 'E','F','F#','G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E','F','F#','G', 'G#', 'A', 'A#', 'B'];
   
@@ -14,7 +14,19 @@ const chordinary = () => {
   const NATURAL_MINOR = 'Natural Minor'
   const HARMONIC_MINOR = 'Harmonic Minor'
 
-  const scales = {
+  interface Scales {
+    [IONIAN]: number[];
+    [DORIAN]: number[],
+    [PHRYGIAN]: number[],
+    [LYDIAN]: number[],
+    [MIXOLYDIAN]: number[],
+    [AEOLIAN]: number[],
+    [LOCRIAN]: number[],
+    [NATURAL_MINOR]: number[],
+    [HARMONIC_MINOR]: number[],
+    [key: string]: number[],
+  }
+  const scales: Scales = {
     [IONIAN]: [1,3,5,6,8,10,12],
     [DORIAN]: [1,3,4,6,8,10,11],
     [PHRYGIAN]: [1,2,4,6,8,9,11],
@@ -57,7 +69,7 @@ const chordinary = () => {
       }
     }
 
-    const chordTouchHandle = (e: Event) => {
+    const chordTouchHandle = (e: any) => {
       e && e.target && e.target.innerHTML && playChord(e.target.innerHTML);
     }
 
@@ -79,14 +91,13 @@ const chordinary = () => {
       return newScale
     }
 
-    const findChord = (chord: string[]) => {
+    const findChord = (chord: string | (string | undefined)[]) :string => {
       let root = chord[0];
       let third = chord[1];
       let fifth = chord[2];
       let i = notes.findIndex(c => c === root);
       let iii = notes.slice(i).findIndex(c => c === third);
       let v = notes.slice(i).findIndex(f => f === fifth);
-      console.log(i,iii,v)
       if (v === 8) {
         return `${root}+`
       }
@@ -96,7 +107,7 @@ const chordinary = () => {
       if (iii === 3) {
         return `${root}m`
       }
-      return root; 
+      return root || 'C'; 
       
     }
 
@@ -170,20 +181,27 @@ const chordinary = () => {
         chord && chord.parentNode && chord.parentNode.removeChild(chord)
       })
     }
-    
-    chordinary.handleSelect = (e: any) => {
+
+    const tonicSelect = (e: any) => {
       const selected = e.target.options[e.target.options.selectedIndex].text
-      const major = document.getElementById('major')
-      const scale = document.getElementById('scale')
+      const scale: any = document.getElementById('scale')
       const key = scale && scale.options && scale.options[scale.options.selectedIndex].text
       setChordalIntervals(key || IONIAN, selected || 'C')
     }
-    
-    chordinary.scaleSelect = (e: any) => {
+
+    const scaleSelect = (e: any) => {
       const selectedScale = e.target.options[e.target.options.selectedIndex].text
-      const tonic = document.getElementById('tonic').options[document.getElementById('tonic').options.selectedIndex].text
+      const tonicEl: any = document.getElementById('tonic')
+      const tonic = tonicEl.options[tonicEl.options.selectedIndex].text
       setChordalIntervals(selectedScale, tonic);
     }
+
+    const tonicEl = document.getElementById('tonic')
+    tonicEl && tonicEl.addEventListener("change", tonicSelect)
+    
+    const scaleEl = document.getElementById('scale');
+    scaleEl && scaleEl.addEventListener('change', scaleSelect);
+    
     setChordalIntervals(IONIAN, 'C');
     addScales();
 }};

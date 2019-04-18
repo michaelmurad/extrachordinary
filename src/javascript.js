@@ -1,7 +1,7 @@
 "use strict";
 const chordinary = () => {
-    const reverb = new Tone.JCReverb(.1).connect(Tone.Master);
-    const synth = new Tone.PolySynth(4, Tone.Synth).chain(reverb);
+    const reverb = new window.Tone.JCReverb(.1).connect(window.Tone.Master);
+    const synth = new window.Tone.PolySynth(4, window.Tone.Synth).chain(reverb);
     const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const IONIAN = 'Ionian';
     const DORIAN = 'Dorian';
@@ -82,7 +82,6 @@ const chordinary = () => {
             let i = notes.findIndex(c => c === root);
             let iii = notes.slice(i).findIndex(c => c === third);
             let v = notes.slice(i).findIndex(f => f === fifth);
-            console.log(i, iii, v);
             if (v === 8) {
                 return `${root}+`;
             }
@@ -161,18 +160,22 @@ const chordinary = () => {
                 chord && chord.parentNode && chord.parentNode.removeChild(chord);
             });
         };
-        chordinary.handleSelect = (e) => {
+        const tonicSelect = (e) => {
             const selected = e.target.options[e.target.options.selectedIndex].text;
-            const major = document.getElementById('major');
             const scale = document.getElementById('scale');
             const key = scale && scale.options && scale.options[scale.options.selectedIndex].text;
             setChordalIntervals(key || IONIAN, selected || 'C');
         };
-        chordinary.scaleSelect = (e) => {
+        const scaleSelect = (e) => {
             const selectedScale = e.target.options[e.target.options.selectedIndex].text;
-            const tonic = document.getElementById('tonic').options[document.getElementById('tonic').options.selectedIndex].text;
+            const tonicEl = document.getElementById('tonic');
+            const tonic = tonicEl.options[tonicEl.options.selectedIndex].text;
             setChordalIntervals(selectedScale, tonic);
         };
+        const tonicEl = document.getElementById('tonic');
+        tonicEl && tonicEl.addEventListener("change", tonicSelect);
+        const scaleEl = document.getElementById('scale');
+        scaleEl && scaleEl.addEventListener('change', scaleSelect);
         setChordalIntervals(IONIAN, 'C');
         addScales();
     };
