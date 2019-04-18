@@ -6,10 +6,44 @@ body {
   padding: 0;
 }
 
+.chords {
+  background-color: beige;
+  color: blueviolet;
+  text-align: center;
+  font-size: 2em;
+  padding: 20px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.chords-cont {
+  display: flex;
+  background-color:  rgb(106, 10, 100);
+  padding: 10px;
+}
+
+
+.chords-cont-cont {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.harmonic-function {
+  margin: 10px;
+  padding: 10px;
+  border: 3px solid white;
+  border-radius: 3px;
+}
+
+.harmonic-function-title {
+  font-size: 1.5em;
+}
+
 .header {
   background-color: rgb(79, 4, 74);
   margin-top: 0px;
-  font-size: 2em;
+  font-size: 1.2em;
   padding: 10px;
   color:white;
   margin-bottom: 10px;
@@ -32,6 +66,10 @@ html {
   margin-bottom: 10px;
 }
 
+.scale {
+  margin-left: 10px;
+}
+
 .selected-chords {
   background-color: beige;
   color: blueviolet;
@@ -50,29 +88,4 @@ html {
   display: flex;
   background-color:  rgb(106, 10, 100);
   padding: 10px;
-}
-
-.chords-cont {
-  display: flex;
-  background-color:  rgb(106, 10, 100);
-  padding: 10px;
-}
-
-.chords {
-  background-color: beige;
-  color: blueviolet;
-  text-align: center;
-  font-size: 2em;
-  padding: 20px;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-.chords-cont-cont {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.chords-type-cont{
-  margin-left: 10px;
 }
