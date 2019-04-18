@@ -91,7 +91,7 @@ const chordinary = () => {
             if (iii === 3) {
                 return `${root}m`;
             }
-            return root;
+            return root || 'C';
         };
         const createChords = (key, chordsList = []) => {
             console.log('key', key);
