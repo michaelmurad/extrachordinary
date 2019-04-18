@@ -1,5 +1,6 @@
 "use strict";
 const chordinary = () => {
+    // synth and its effects
     const reverb = new window.Tone.JCReverb(.1).connect(window.Tone.Master);
     const synth = new window.Tone.PolySynth(4, window.Tone.Synth).chain(reverb);
     const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -24,41 +25,46 @@ const chordinary = () => {
         [HARMONIC_MINOR]: [1, 3, 4, 6, 8, 9, 12],
     };
     return () => {
+        // plays chord in Synth based on string provided from DOM Node
         const playChord = (chord) => {
             const time = '200n';
             const octive = 3;
+            // this gets the root note and removes chord symbol
+            let i = chord.length === 3 ? chord.slice(0, 2) : chord[0];
+            // finds the root note index
+            let rootIndex = notes.findIndex(note => note === i);
             if (chord.endsWith('m')) {
-                let i = chord.length === 3 ? chord.slice(0, 2) : chord[0];
-                let scale = [...notes.slice(notes.findIndex(note => note === i))];
-                let iii = scale[3];
-                let v = scale[7];
+                // plays minor chord
+                let iii = notes[rootIndex + 3];
+                let v = notes[rootIndex + 7];
                 synth.triggerAttackRelease([i + octive, iii + octive, v + octive], time);
             }
             else if (chord.endsWith('°')) {
-                let i = chord.length === 3 ? chord.slice(0, 2) : chord[0];
-                let scale = [...notes.slice(notes.findIndex(note => note === i))];
-                let iii = scale[3];
-                let v = scale[6];
+                // plays diminished chord
+                let iii = notes[rootIndex + 3];
+                let v = notes[rootIndex + 6];
                 synth.triggerAttackRelease([i + octive, iii + octive, v + octive], time);
             }
             else if (chord.endsWith('+')) {
-                let i = chord.length === 3 ? chord.slice(0, 2) : chord[0];
-                let scale = [...notes.slice(notes.findIndex(note => note === i))];
-                let iii = scale[4];
-                let v = scale[8];
+                // plays augmented chord
+                let iii = notes[rootIndex + 4];
+                let v = notes[rootIndex + 8];
                 synth.triggerAttackRelease([i + octive, iii + octive, v + octive], time);
             }
             else {
-                let i = chord;
-                let scale = [...notes.slice(notes.findIndex(note => note === chord))];
-                let iii = scale[4];
-                let v = scale[7];
+                // plays Major chord
+                let majorI = chord;
+                let majorRootIndex = notes.findIndex(note => note === majorI);
+                let iii = notes[majorRootIndex + 4];
+                let v = notes[majorRootIndex + 7];
                 synth.triggerAttackRelease([i + octive, iii + octive, v + octive], time);
             }
         };
+        // plays chord on touch
         const chordTouchHandle = (e) => {
             e && e.target && e.target.innerHTML && playChord(e.target.innerHTML);
         };
+        // adds scales <option> to <select id="scales"> DOM Node
         const addScales = () => {
             const scalesEl = document.getElementById('scale');
             const scaleList = Object.keys(scales);
@@ -70,11 +76,12 @@ const chordinary = () => {
                 }
             });
         };
+        // creates an array where the root note is the 0 index
         const setNewScale = (tonic, scale) => {
             let newScale = scales[scale].map((note) => notes.slice(notes.findIndex(root => root === tonic))[note - 1]);
-            console.log('newScalse', newScale);
             return newScale;
         };
+        // determines chord type based on intervals
         const findChord = (chord) => {
             let root = chord[0];
             let third = chord[1];
@@ -93,10 +100,9 @@ const chordinary = () => {
             }
             return root || 'C';
         };
+        // creates chordal progression based on scale using triads
         const createChords = (key, chordsList = []) => {
-            console.log('key', key);
             if (chordsList.length > 6) {
-                console.log('final chordslist', chordsList);
                 return chordsList;
             }
             ;
@@ -104,28 +110,23 @@ const chordinary = () => {
             for (let i = 0; chord.length < 3; i += 2) {
                 chord = [...chord, key[i]];
             }
-            console.log('chordslist', chordsList);
             const cycledScale = [...key.slice(1), key[0]];
-            console.log('cycled', cycledScale);
             return createChords(cycledScale, [...chordsList, chord]);
         };
+        // adds chords to DOM
         const setChordalIntervals = (scale = IONIAN, root = 'C') => {
             const chordsExist = document.getElementsByClassName('chords');
             if (chordsExist.length)
                 clearChords();
             // this is an array of all the chords in the scale
             const chords = createChords(setNewScale(root, scale));
-            console.log('chords', chords);
             // find tonic 
             const tonicEl = document.getElementById('tonics');
             // set tonic I III VI
             const span1 = document.createElement("span");
             span1.className = 'chords';
-            // span1.addEventListener("click", chordTouchHandle)
             const span2 = span1.cloneNode(true);
-            // span2.addEventListener("click", chordTouchHandle)
             const span3 = span1.cloneNode(true);
-            // span3.onclick = (event) => chordTouchHandle(event);
             span1.innerHTML = findChord(chords[0]);
             span2.innerHTML = findChord(chords[2]);
             span3.innerHTML = findChord(chords[5]);
@@ -152,30 +153,39 @@ const chordinary = () => {
             dominantEl && dominantEl.appendChild(dom7);
             // // set secondary dominant
             const chordClass = document.getElementsByClassName('chords');
+            // adds event listener to each node to play chord sound with synth
+            ;
             [...chordClass].forEach(element => element.addEventListener("click", chordTouchHandle));
         };
+        // removes all clickable chords from DOM
         const clearChords = () => {
             const chords = document.getElementsByClassName('chords');
+            ;
             [...chords].forEach(chord => {
                 chord && chord.parentNode && chord.parentNode.removeChild(chord);
             });
         };
+        // changes clickabel chords based on Tonic
         const tonicSelect = (e) => {
             const selected = e.target.options[e.target.options.selectedIndex].text;
             const scale = document.getElementById('scale');
             const key = scale && scale.options && scale.options[scale.options.selectedIndex].text;
             setChordalIntervals(key || IONIAN, selected || 'C');
         };
+        // changes clickabel chords based on scale/mode
         const scaleSelect = (e) => {
             const selectedScale = e.target.options[e.target.options.selectedIndex].text;
             const tonicEl = document.getElementById('tonic');
             const tonic = tonicEl.options[tonicEl.options.selectedIndex].text;
             setChordalIntervals(selectedScale, tonic);
         };
+        // adds event listener to tonic select
         const tonicEl = document.getElementById('tonic');
         tonicEl && tonicEl.addEventListener("change", tonicSelect);
+        // adds event listener to scale select
         const scaleEl = document.getElementById('scale');
         scaleEl && scaleEl.addEventListener('change', scaleSelect);
+        // init onload
         setChordalIntervals(IONIAN, 'C');
         addScales();
     };
