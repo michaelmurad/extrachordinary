@@ -38,6 +38,9 @@ const chordinary = () => {
     const LOCRIAN = 'Locrian';
     const NATURAL_MINOR = 'Natural Minor';
     const HARMONIC_MINOR = 'Harmonic Minor';
+    let currentScaleNotes = [];
+    let currentScale = IONIAN;
+    let currentTonic = notes[0];
     const scales = {
         [IONIAN]: [1, 3, 5, 6, 8, 10, 12],
         [DORIAN]: [1, 3, 4, 6, 8, 10, 11],
@@ -106,6 +109,7 @@ const chordinary = () => {
         // creates an array where the root note is the 0 index
         const setNewScale = (tonic, scale) => {
             const newScale = scales[scale].map((note) => notes.slice(notes.findIndex((root) => root === tonic))[note - 1]);
+            currentScaleNotes = newScale;
             return newScale;
         };
         // determines chord type based on intervals
@@ -192,17 +196,13 @@ const chordinary = () => {
         };
         // changes clickabel chords based on Tonic
         const tonicSelect = (e) => {
-            const selected = e.target.options[e.target.options.selectedIndex].text;
-            const scale = document.getElementById('scale');
-            const key = scale && scale.options && scale.options[scale.options.selectedIndex].text;
-            setChordalIntervals(key || IONIAN, selected || 'C');
+            currentTonic = e.target.options[e.target.options.selectedIndex].text;
+            setChordalIntervals(currentScale, currentTonic);
         };
         // changes clickabel chords based on scale/mode
         const scaleSelect = (e) => {
-            const selectedScale = e.target.options[e.target.options.selectedIndex].text;
-            const tonicElement = document.getElementById('tonic');
-            const tonic = tonicElement.options[tonicElement.options.selectedIndex].text;
-            setChordalIntervals(selectedScale, tonic);
+            currentScale = e.target.options[e.target.options.selectedIndex].text;
+            setChordalIntervals(currentScale, currentTonic);
         };
         // adds event listener to tonic select
         const tonicEl = document.getElementById('tonic');
@@ -211,7 +211,7 @@ const chordinary = () => {
         const scaleEl = document.getElementById('scale');
         scaleEl && scaleEl.addEventListener('change', scaleSelect);
         // init onload
-        setChordalIntervals(IONIAN, 'C');
+        setChordalIntervals(currentScale, currentTonic);
         addScales();
     };
 };

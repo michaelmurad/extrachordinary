@@ -40,6 +40,10 @@ const chordinary = () => {
   const NATURAL_MINOR = 'Natural Minor';
   const HARMONIC_MINOR = 'Harmonic Minor';
 
+  let currentScaleNotes: string[] = [];
+  let currentScale: string = IONIAN;
+  let currentTonic: string = notes[0];
+
   interface IScales {
     [IONIAN]: number[];
     [DORIAN]: number[];
@@ -123,6 +127,7 @@ const chordinary = () => {
     const setNewScale = (tonic: string, scale: string): string[] => {
       const newScale: string[] = scales[scale].map(
         (note: number) => notes.slice(notes.findIndex((root) => root === tonic))[note - 1]);
+      currentScaleNotes = newScale;
       return newScale;
     };
 
@@ -221,18 +226,14 @@ const chordinary = () => {
 
     // changes clickabel chords based on Tonic
     const tonicSelect = (e: any) => {
-      const selected = e.target.options[e.target.options.selectedIndex].text;
-      const scale: any = document.getElementById('scale');
-      const key = scale && scale.options && scale.options[scale.options.selectedIndex].text;
-      setChordalIntervals(key || IONIAN, selected || 'C');
+      currentTonic = e.target.options[e.target.options.selectedIndex].text;
+      setChordalIntervals(currentScale, currentTonic);
     };
 
     // changes clickabel chords based on scale/mode
     const scaleSelect = (e: any) => {
-      const selectedScale = e.target.options[e.target.options.selectedIndex].text;
-      const tonicElement: any = document.getElementById('tonic');
-      const tonic = tonicElement.options[tonicElement.options.selectedIndex].text;
-      setChordalIntervals(selectedScale, tonic);
+      currentScale = e.target.options[e.target.options.selectedIndex].text;
+      setChordalIntervals(currentScale, currentTonic);
     };
 
     // adds event listener to tonic select
@@ -244,7 +245,7 @@ const chordinary = () => {
     scaleEl && scaleEl.addEventListener('change', scaleSelect);
 
     // init onload
-    setChordalIntervals(IONIAN, 'C');
+    setChordalIntervals(currentScale, currentTonic);
     addScales();
 }; };
 
