@@ -81,7 +81,7 @@ const chordinary = () => {
             }
             else {
                 // plays Major chord
-                const majorI = chord;
+                const majorI = chord.split(' ')[0];
                 const majorRootIndex = notes.findIndex((note) => note === majorI);
                 const iii = notes[majorRootIndex + 4];
                 const v = notes[majorRootIndex + 7];
@@ -143,6 +143,22 @@ const chordinary = () => {
             const cycledScale = [...key.slice(1), key[0]];
             return createChords(cycledScale, [...chordsList, chord]);
         };
+        // creates secondary chords
+        const createSecondaryDominants = () => {
+            const secDomEl = document.getElementById('secdominant');
+            currentScaleNotes.slice(1).forEach((curNote, index) => {
+                const chordEl = document.createElement('span');
+                const secondaryRootEl = document.createElement('span');
+                chordEl.className = 'chords';
+                secondaryRootEl.className = 'secondary-root';
+                secondaryRootEl.innerHTML = `curNote`;
+                const noteIndex = notes.findIndex((note) => note === curNote);
+                const vii = notes[noteIndex + 7];
+                chordEl.innerHTML = `${vii} &#8594 ${curNote}`;
+                secDomEl && secDomEl.appendChild(chordEl);
+                // secDomEl && secDomEl.appendChild(secondaryRootEl);
+            });
+        };
         // adds chords to DOM
         const setChordalIntervals = (scale = IONIAN, root = 'C') => {
             const chordsExist = document.getElementsByClassName('chords');
@@ -183,9 +199,12 @@ const chordinary = () => {
             dominantEl && dominantEl.appendChild(dom5);
             dominantEl && dominantEl.appendChild(dom7);
             // // set secondary dominant
+            createSecondaryDominants();
             const chordClass = document.getElementsByClassName('chords');
+            const secChordClass = document.getElementsByClassName('sec-chords');
             // adds event listener to each node to play chord sound with synth
             [...chordClass].forEach((element) => element.addEventListener('click', chordTouchHandle));
+            [...secChordClass].forEach((element) => element.addEventListener('click', chordTouchHandle));
         };
         // removes all clickable chords from DOM
         const clearChords = () => {
