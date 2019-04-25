@@ -12,7 +12,6 @@ export const chordinary = () => {
 
   let currentScale: string = IONIAN;
   let currentTonic: string = notes[0];
-  let currentScaleNotes: string[] = [];
 
   return () => {
     // plays chord on touch
@@ -22,29 +21,30 @@ export const chordinary = () => {
       }
     };
 
-    const setCurrentScaleNotes = (newNotes: string[]) => {
-      currentScaleNotes = newNotes;
-    };
-
     const setChordalIntervalsObject = {
       chordTouchHandle,
       notes,
-      root: currentTonic,
-      scale: currentScale,
-      scales,
-      setCurrentScaleNotes
+      scales
     };
 
     // changes clickabel chords based on Tonic
     const tonicSelect = (e: any) => {
       currentTonic = e.target.options[e.target.options.selectedIndex].text;
-      setChordalIntervals(setChordalIntervalsObject);
+      setChordalIntervals(
+        setChordalIntervalsObject,
+        currentTonic,
+        currentScale
+      );
     };
 
     // changes clickabel chords based on scale/mode
     const scaleSelect = (e: any) => {
       currentScale = e.target.options[e.target.options.selectedIndex].text;
-      setChordalIntervals(setChordalIntervalsObject);
+      setChordalIntervals(
+        setChordalIntervalsObject,
+        currentTonic,
+        currentScale
+      );
     };
 
     // adds event listener to tonic select
@@ -56,7 +56,7 @@ export const chordinary = () => {
     scaleEl && scaleEl.addEventListener('change', scaleSelect);
 
     // init onload
-    setChordalIntervals(setChordalIntervalsObject);
+    setChordalIntervals(setChordalIntervalsObject, currentTonic, currentScale);
     addScales(scales);
   };
 };

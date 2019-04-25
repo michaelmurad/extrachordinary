@@ -6,33 +6,19 @@ import { IScales } from './scales';
 import { setNewScale } from './setNewScale';
 
 interface ISetChordalIntervalObject {
-  scale: string;
-  root: string;
-  notes: string[];
   scales: IScales;
-  setCurrentScaleNotes: any;
   chordTouchHandle: any;
+  notes: string[];
 }
 
 // adds chords to DOM
 export const setChordalIntervals = (
-  setChordalIntervalsObject: ISetChordalIntervalObject
+  setChordalIntervalsObject: ISetChordalIntervalObject,
+  root: string,
+  scale: string
 ): any => {
-  const {
-    scale,
-    root,
-    notes,
-    scales,
-    setCurrentScaleNotes,
-    chordTouchHandle
-  } = setChordalIntervalsObject;
-  const currentScaleNotes = setNewScale(
-    root,
-    scale,
-    scales,
-    notes,
-    setCurrentScaleNotes
-  );
+  const { notes, scales, chordTouchHandle } = setChordalIntervalsObject;
+  const currentScaleNotes = setNewScale(root, scale, scales, notes);
   const chordsExist = document.getElementsByClassName('chords');
   if (chordsExist.length) {
     clearChords();

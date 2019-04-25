@@ -1,4 +1,4 @@
-// plays chord in Synth based on string provided from DOM Node
+// plays chord in Synth based on string like Cm or D#+
 export const playChord = (chord: string, notes: string[], synth: any) => {
   const time = '200n';
   const octive = 3;

@@ -5,13 +5,11 @@ export const setNewScale = (
   tonic: string,
   scale: string,
   scales: IScales,
-  notes: string[],
-  setCurrentScaleNotes: any
+  notes: string[]
 ): string[] => {
   const newScale: string[] = scales[scale].map(
     (note: number) =>
       notes.slice(notes.findIndex(root => root === tonic))[note - 1]
   );
-  setCurrentScaleNotes(newScale);
   return newScale;
 };
