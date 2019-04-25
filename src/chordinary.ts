@@ -7,7 +7,7 @@ import { setChordalIntervals } from './setChords';
 export const chordinary = () => {
   // synth and its effects
   const tone = (window as any).Tone;
-  const reverb = new tone.JCReverb(.1).connect(tone.Master);
+  const reverb = new tone.JCReverb(0.1).connect(tone.Master);
   const synth = new tone.PolySynth(4, tone.Synth).chain(reverb);
 
   let currentScale: string = IONIAN;
@@ -15,9 +15,9 @@ export const chordinary = () => {
   let currentScaleNotes: string[] = [];
 
   return () => {
-     // plays chord on touch
+    // plays chord on touch
     const chordTouchHandle = (e: any) => {
-      if (e && e.target && e.target.innerHTML)  {
+      if (e && e.target && e.target.innerHTML) {
         return playChord(e.target.innerHTML, notes, synth);
       }
     };
@@ -32,7 +32,7 @@ export const chordinary = () => {
       root: currentTonic,
       scale: currentScale,
       scales,
-      setCurrentScaleNotes,
+      setCurrentScaleNotes
     };
 
     // changes clickabel chords based on Tonic

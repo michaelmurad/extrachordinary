@@ -16,19 +16,27 @@ interface ISetChordalIntervalObject {
 
 // adds chords to DOM
 export const setChordalIntervals = (
-  setChordalIntervalsObject: ISetChordalIntervalObject,
-  ): any => {
+  setChordalIntervalsObject: ISetChordalIntervalObject
+): any => {
   const {
     scale,
     root,
     notes,
     scales,
     setCurrentScaleNotes,
-    chordTouchHandle,
+    chordTouchHandle
   } = setChordalIntervalsObject;
-  const currentScaleNotes = setNewScale(root, scale, scales, notes, setCurrentScaleNotes);
+  const currentScaleNotes = setNewScale(
+    root,
+    scale,
+    scales,
+    notes,
+    setCurrentScaleNotes
+  );
   const chordsExist = document.getElementsByClassName('chords');
-  if (chordsExist.length) { clearChords(); }
+  if (chordsExist.length) {
+    clearChords();
+  }
   // this is an array of all the chords in the scale
   const chords = createChords(currentScaleNotes);
   // find tonic
@@ -69,7 +77,10 @@ export const setChordalIntervals = (
   const chordClass = document.getElementsByClassName('chords');
   const secChordClass = document.getElementsByClassName('sec-chords');
   // adds event listener to each node to play chord sound with synth
-  [...chordClass].forEach((element) =>  element.addEventListener('click', chordTouchHandle));
-  [...secChordClass].forEach((element) =>  element.addEventListener('click', chordTouchHandle));
-
+  [...chordClass].forEach(element =>
+    element.addEventListener('click', chordTouchHandle)
+  );
+  [...secChordClass].forEach(element =>
+    element.addEventListener('click', chordTouchHandle)
+  );
 };

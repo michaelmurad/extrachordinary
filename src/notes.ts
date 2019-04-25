@@ -22,5 +22,5 @@ export const notes = [
   'G#',
   'A',
   'A#',
-  'B',
+  'B'
 ];
