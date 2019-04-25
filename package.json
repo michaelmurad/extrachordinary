@@ -1,0 +1,21 @@
+{
+  "name": "extra-chordinary",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Michael Murad <mumpletheterrible@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^5.4.3",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "scripts": {
+    "dev": "yarn webpack --config webpack.dev.config.js; yarn move",
+    "build": "yarn webpack --config webpack.prod.config.js; yarn move",
+    "move": "node scripts/moveScript.js"
+  },
+  "dependencies": {
+    "tone": "^13.4.9"
+  }
+}
