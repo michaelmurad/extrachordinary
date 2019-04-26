@@ -7,8 +7,8 @@ import { setChordalIntervals } from './setChords';
 export const chordinary = () => {
   // synth and its effects
   const tone = (window as any).Tone;
-  const reverb = new tone.JCReverb(0.1).connect(tone.Master);
-  const synth = new tone.PolySynth(4, tone.Synth).chain(reverb);
+  const reverb = tone && new tone.JCReverb(0.1).connect(tone.Master);
+  const synth = tone && new tone.PolySynth(4, tone.Synth).chain(reverb);
 
   let currentScale: string = IONIAN;
   let currentTonic: string = notes[0];
