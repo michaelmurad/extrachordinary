@@ -5,7 +5,11 @@
   "author": "Michael Murad <mumpletheterrible@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "husky": "^2.1.0",
+    "jest": "^24.7.1",
     "prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
     "ts-loader": "^5.4.3",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
@@ -14,12 +18,16 @@
     "webpack-cli": "^3.3.1"
   },
   "scripts": {
-    "dev": "yarn webpack --config webpack.dev.config.js; yarn move",
-    "build": "yarn webpack --config webpack.prod.config.js; yarn move",
+    "dev": "yarn test; yarn webpack --config webpack.dev.config.js; yarn move",
+    "build": "yarn test; yarn webpack --config webpack.prod.config.js; yarn move",
     "move": "node scripts/moveScript.js",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "test": "jest"
   },
-  "dependencies": {
-    "tone": "^13.4.9"
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn prettier --config .prettierrc.json src/*; yarn build"
+    }
   }
 }
