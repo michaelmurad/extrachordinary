@@ -6,7 +6,16 @@ export const playChord = (chord: string, notes: string[], synth: any) => {
   const i = chord.length === 3 ? chord.slice(0, 2) : chord[0];
   // finds the root note index
   const rootIndex = notes.findIndex(note => note === i);
-  if (chord.endsWith('m')) {
+  if (chord.includes('→')) {
+    const majorI = chord.split(' ')[0];
+    const majorRootIndex = notes.findIndex(note => note === majorI);
+    const iii = notes[majorRootIndex + 4];
+    const v = notes[majorRootIndex + 7];
+    synth.triggerAttackRelease(
+      [majorI + octive, iii + octive, v + octive],
+      time
+    );
+  } else if (chord.endsWith('m')) {
     // plays minor chord
     const iii = notes[rootIndex + 3];
     const v = notes[rootIndex + 7];

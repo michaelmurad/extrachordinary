@@ -61,12 +61,8 @@ export const setChordalIntervals = (
   // // set secondary dominant
   createSecondaryDominants(currentScaleNotes, notes);
   const chordClass = document.getElementsByClassName('chords');
-  const secChordClass = document.getElementsByClassName('sec-chords');
   // adds event listener to each node to play chord sound with synth
   [...chordClass].forEach(element =>
-    element.addEventListener('click', chordTouchHandle)
-  );
-  [...secChordClass].forEach(element =>
     element.addEventListener('click', chordTouchHandle)
   );
 };
