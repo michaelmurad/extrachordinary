@@ -1,7 +1,8 @@
 body {
   background-color: #eeeeee;
-  color: rgba(0,0,0,.56);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: rgba(0, 0, 0, 0.56);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -10,14 +11,14 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 3px;
-  background-color:  #fafafa;
-  color: rgba(0,0,0,.56);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  background-color: #fafafa;
+  color: rgba(0, 0, 0, 0.56);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .chords {
-  background-color:#0779c5;
+  background-color: #0779c5;
   color: #ffffff;
   text-align: center;
   font-size: 1.2em;
@@ -25,8 +26,9 @@ body {
   border-radius: 3px;
   margin-right: 10px;
   margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
 }
 
 .chords:hover {
@@ -64,12 +66,18 @@ body {
 }
 
 .header {
-  background-color:#0779c5;
+  background-color: #0779c5;
   margin-top: 0px;
   font-size: 1.2em;
   padding: 10px;
-  color:rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.88);
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.header-text {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 html {
@@ -87,11 +95,12 @@ html {
   display: flex;
 }
 .question {
-  margin-top: 20px;
-  color: rgb(54, 7, 97);
   font-size: 1.1em;
   margin-left: 4px;
   font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.56);
 }
 
 .scale {
@@ -114,6 +123,11 @@ html {
 
 .selected-chords-cont {
   display: flex;
-  background-color:  rgb(106, 10, 100);
+  background-color: rgb(106, 10, 100);
   padding: 10px;
+}
+
+.title-cont {
+  display: flex;
+  flex-direction: row;
 }
