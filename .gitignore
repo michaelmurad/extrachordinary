@@ -4,3 +4,4 @@ yarn-error.log
 .firebaserc
 .DS_Store
 .firebase
+firebase.json
