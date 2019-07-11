@@ -7,9 +7,11 @@ export const setNewScale = (
   scales: IScales,
   notes: string[]
 ): string[] => {
+  // Creates a new array that starts at the root note
+  const newArray = notes.slice(notes.findIndex(root => root === tonic));
+  // Now iterate over the scale inputing the notes a new array
   const newScale: string[] = scales[scale].map(
-    (note: number) =>
-      notes.slice(notes.findIndex(root => root === tonic))[note - 1]
+    (note: number) => newArray[note - 1]
   );
   return newScale;
 };
