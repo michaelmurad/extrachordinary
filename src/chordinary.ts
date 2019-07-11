@@ -27,7 +27,7 @@ export const chordinary = () => {
       scales
     };
 
-    // changes clickabel chords based on Tonic
+    // changes clickable chords based on Tonic
     const tonicSelect = (e: any) => {
       currentTonic = e.target.options[e.target.options.selectedIndex].text;
       setChordalIntervals(
